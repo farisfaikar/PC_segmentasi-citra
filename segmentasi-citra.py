@@ -4,15 +4,16 @@ import numpy as np
 
 def deteksi_garis():
     img = cv2.imread('image.jpg')
-    gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-    edges = cv2.Canny(gray,50,150,apertureSize = 3)
-    lines = cv2.HoughLinesP(edges,1,np.pi/180,100,minLineLength=100,maxLineGap=10)
-    cv2.imshow('Original Image',img)
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    edges = cv2.Canny(gray, 50, 150, apertureSize=3)
+    lines = cv2.HoughLinesP(edges, 1, np.pi/180, 100,
+                            minLineLength=100, maxLineGap=10)
+    cv2.imshow('Original Image', img)
     if lines is not None:
         for line in lines:
-            x1,y1,x2,y2 = line[0]
-            cv2.line(img,(x1,y1),(x2,y2),(0,255,0),2)
-        cv2.imshow('Deteksi Garis',img)
+            x1, y1, x2, y2 = line[0]
+            cv2.line(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
+        cv2.imshow('Deteksi Garis', img)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
     else:
@@ -52,12 +53,14 @@ def pengambangan_global():
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
+
 def pengambangan_lokal():
     img = cv2.imread('image.jpg')
     block_size = 11
     C = 2
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    th = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, block_size, C)
+    th = cv2.adaptiveThreshold(
+        gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, block_size, C)
     cv2.imshow('Original Image', img)
     cv2.imshow('Pengambangan Lokal', th)
     cv2.waitKey(0)
@@ -68,7 +71,8 @@ def pengambangan_metode_otsu():
     img = cv2.imread('image.jpg', 0)
 
     # Otsu thresholding
-    ret, thresh = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    ret, thresh = cv2.threshold(
+        img, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
     cv2.imshow('Original Image', img)
     cv2.imshow('Pengambangan Metode Otsu', thresh)
@@ -80,7 +84,7 @@ def pengambangan_adaptif():
     img = cv2.imread('image.jpg', 0)
 
     # Adaptive histogram equalization
-    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
     adapthist = clahe.apply(img)
 
     cv2.imshow('Original Image', img)
@@ -93,7 +97,7 @@ def pengambangan_berdasarkan_entropi():
     img = cv2.imread('image.jpg', 0)
 
     # Adaptive histogram equalization
-    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
     adapthist = clahe.apply(img)
 
     cv2.imshow('Original Image', img)
@@ -108,21 +112,22 @@ def segmentasi_warna():
 
     # Ubah citra menjadi 2D array
     pixel_values = img.reshape((-1, 3))
-    
+
     # Konversi tipe data menjadi float32
     pixel_values = np.float32(pixel_values)
-    
+
     # Terapkan algoritma K-means
     criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 100, 0.85)
-    _, labels, centers = cv2.kmeans(pixel_values, k, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
-    
+    _, labels, centers = cv2.kmeans(
+        pixel_values, k, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
+
     # Ubah nilai piksel menjadi nilai pusat yang sesuai
     centers = np.uint8(centers)
     segmented_data = centers[labels.flatten()]
-    
+
     # Ubah kembali bentuk citra
     segmented_image = segmented_data.reshape((img.shape))
-    
+
     # Tampilkan citra hasil segmentasi
     cv2.imshow('Original Image', img)
     cv2.imshow('Segmentasi Warna', segmented_image)
