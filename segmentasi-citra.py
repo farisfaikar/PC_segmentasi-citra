@@ -23,11 +23,19 @@ def deteksi_garis():
 def deteksi_tepi():
     img = cv2.imread('image.jpg', 0)
 
-    # Canny edge detection
-    edges = cv2.Canny(img, 100, 200)
+    # Operator Roberts 
+    edges_roberts = cv2.filter2D(img, -1, np.array([[0, 1], [-1, 0]]))
+
+    # Operator Prewitt 
+    edges_prewitt = cv2.filter2D(img, -1, np.array([[-1, -1, -1], [0, 0, 0], [1, 1, 1]]))
+
+    # Operator Sobel 
+    edges_sobel = cv2.Sobel(img, cv2.CV_64F, 1, 0, ksize=3)
 
     cv2.imshow('Original Image', img)
-    cv2.imshow('Deteksi Tepi', edges)
+    cv2.imshow('Operator Roberts', edges_roberts)
+    cv2.imshow('Operator Prewitt', edges_prewitt)
+    cv2.imshow('Operator Sobel', edges_sobel)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
