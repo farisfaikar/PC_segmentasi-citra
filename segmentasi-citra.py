@@ -91,12 +91,22 @@ def pengambangan_metode_otsu():
 def pengambangan_adaptif():
     img = cv2.imread('image.jpg', 0)
 
-    # Adaptive histogram equalization
-    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
-    adapthist = clahe.apply(img)
+    # Pengambangan Adapmean
+    adapmean = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_MEAN_C,
+                                     cv2.THRESH_BINARY, 11, 2)
+    # Pengambangan Adapmedian
+    adapmedian = cv2.medianBlur(img, 3)
+    adapmedian = cv2.adaptiveThreshold(adapmedian, 255, cv2.ADAPTIVE_THRESH_MEAN_C,
+                                       cv2.THRESH_BINARY, 11, 2)
+    # Pengambangan Adapmaxmin
+    adapmaxmin = cv2.blur(img, (5,5))
+    adapmaxmin = cv2.adaptiveThreshold(adapmaxmin, 255, cv2.ADAPTIVE_THRESH_MEAN_C,
+                                       cv2.THRESH_BINARY, 11, 2)
 
     cv2.imshow('Original Image', img)
-    cv2.imshow('Pengambangan Adaptif', adapthist)
+    cv2.imshow('Pengambangan Adapmean', adapmean)
+    cv2.imshow('Pengambangan Adapmedian', adapmedian)
+    cv2.imshow('Pengambangan Adapmaxmin', adapmaxmin)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
