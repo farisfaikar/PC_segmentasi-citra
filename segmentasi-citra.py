@@ -9,15 +9,12 @@ def deteksi_garis():
     lines = cv2.HoughLinesP(edges, 1, np.pi/180, 100,
                             minLineLength=100, maxLineGap=10)
     cv2.imshow('Original Image', img)
-    if lines is not None:
-        for line in lines:
-            x1, y1, x2, y2 = line[0]
-            cv2.line(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
-        cv2.imshow('Deteksi Garis', img)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-    else:
-        print('Tidak dapat mendeteksi garis pada gambar')
+    for line in lines:
+        x1, y1, x2, y2 = line[0]
+        cv2.line(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
+    cv2.imshow('Deteksi Garis', img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
 
 def deteksi_tepi():
