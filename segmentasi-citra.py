@@ -23,13 +23,14 @@ def deteksi_garis():
 def deteksi_tepi():
     img = cv2.imread('image.jpg', 0)
 
-    # Operator Roberts 
+    # Operator Roberts
     edges_roberts = cv2.filter2D(img, -1, np.array([[0, 1], [-1, 0]]))
 
-    # Operator Prewitt 
-    edges_prewitt = cv2.filter2D(img, -1, np.array([[-1, -1, -1], [0, 0, 0], [1, 1, 1]]))
+    # Operator Prewitt
+    edges_prewitt = cv2.filter2D(
+        img, -1, np.array([[-1, -1, -1], [0, 0, 0], [1, 1, 1]]))
 
-    # Operator Sobel 
+    # Operator Sobel
     edges_sobel = cv2.Sobel(img, cv2.CV_64F, 1, 0, ksize=3)
 
     cv2.imshow('Original Image', img)
@@ -99,7 +100,7 @@ def pengambangan_adaptif():
     adapmedian = cv2.adaptiveThreshold(adapmedian, 255, cv2.ADAPTIVE_THRESH_MEAN_C,
                                        cv2.THRESH_BINARY, 11, 2)
     # Pengambangan Adapmaxmin
-    adapmaxmin = cv2.blur(img, (5,5))
+    adapmaxmin = cv2.blur(img, (5, 5))
     adapmaxmin = cv2.adaptiveThreshold(adapmaxmin, 255, cv2.ADAPTIVE_THRESH_MEAN_C,
                                        cv2.THRESH_BINARY, 11, 2)
 
